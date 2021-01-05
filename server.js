@@ -1,4 +1,5 @@
 const { ApolloServer } = require("apollo-server-express");
+const { db } = require("./db");
 
 const express = require("express");
 require("dotenv").config();
@@ -35,6 +36,7 @@ app.get("/rest", (req, res) => {
   });
 });
 
-app.listen(process.env.PORT, () => {
+app.listen(process.env.PORT, async () => {
+  await db();
   console.log(`🚀 Server is running at http://localhost:${process.env.PORT}`);
 });
