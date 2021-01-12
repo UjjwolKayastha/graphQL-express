@@ -9,7 +9,18 @@ module.exports = gql`
   }
 
   type Query {
-    totalPosts: int!
+    totalPosts: Int!
     allPosts: [Post!]!
+  }
+
+  # input type
+  input PostInput {
+    title: String!
+    description: String!
+  }
+
+  # mutations
+  type Mutation {
+    newPost(input: PostInput!): Post!
   }
 `;
