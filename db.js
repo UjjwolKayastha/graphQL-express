@@ -8,6 +8,7 @@ module.exports = {
         useNewUrlParser: true,
         useUnifiedTopology: true,
         useCreateIndex: true,
+        useFindAndModify: false,
       });
       console.log("Database connection successfull");
     } catch (error) {
