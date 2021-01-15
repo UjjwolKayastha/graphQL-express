@@ -1,7 +1,7 @@
-const authCheck = require("../helpers/auth");
+const { authCheck } = require("../helpers/auth");
 
-const me = (_, args, { req, res }) => {
-  authCheck.authCheck(req, res);
+const me = async (_, args, { req, res }) => {
+  await authCheck(req, res);
   return "UJJWOL";
 };
 

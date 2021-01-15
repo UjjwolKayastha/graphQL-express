@@ -4,7 +4,7 @@ const http = require("http");
 const express = require("express");
 require("dotenv").config();
 
-const authCheck = require("./helpers/auth");
+const { authCheck } = require("./helpers/auth");
 const cors = require("cors");
 const path = require("path");
 
@@ -40,7 +40,7 @@ apolloServer.applyMiddleware({ app });
 const httpServer = http.createServer(app);
 apolloServer.installSubscriptionHandlers(httpServer);
 
-app.get("/rest", authCheck.authCheck, function (req, res) {
+app.get("/rest", authCheck, function (req, res) {
   res.json({
     data: "API is working...",
   });
