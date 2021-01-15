@@ -1,14 +1,22 @@
 const { ApolloServer } = require("apollo-server-express");
 const { db } = require("./db");
-
+const http = require("http");
 const express = require("express");
 require("dotenv").config();
 
+const authCheck = require("./helpers/auth");
+const cors = require("cors");
 const path = require("path");
 
 const { makeExecutableSchema } = require("graphql-tools");
 const { mergeTypeDefs, mergeResolvers } = require("@graphql-tools/merge");
 const { loadFilesSync } = require("@graphql-tools/load-files");
+
+//express server
+const app = express();
+
+db();
+app.use(cors());
 
 //graphql server
 
@@ -23,20 +31,21 @@ const resolvers = mergeResolvers(
 const apolloServer = new ApolloServer({
   typeDefs,
   resolvers,
+  //request and response as context
+  context: ({ req, res }) => ({ req, res }),
 });
-
-//express server
-const app = express();
 
 apolloServer.applyMiddleware({ app });
 
-app.get("/rest", (req, res) => {
+const httpServer = http.createServer(app);
+apolloServer.installSubscriptionHandlers(httpServer);
+
+app.get("/rest", authCheck.authCheck, function (req, res) {
   res.json({
     data: "API is working...",
   });
 });
 
-app.listen(process.env.PORT, async () => {
-  await db();
+httpServer.listen(process.env.PORT, function () {
   console.log(`🚀 Server is running at http://localhost:${process.env.PORT}`);
 });
