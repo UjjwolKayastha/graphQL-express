@@ -21,7 +21,9 @@ app.use(cors());
 //graphql server
 
 //types query/mutation/subscription
-const typeDefs = mergeTypeDefs(loadFilesSync(path.join(__dirname, "./schema")));
+const typeDefs = mergeTypeDefs(
+  loadFilesSync(path.join(__dirname, "./typeDefs"))
+);
 
 //resolvers
 const resolvers = mergeResolvers(
