@@ -8,6 +8,11 @@ const me = async (_, args, { req, res }) => {
   return "UJJWOL";
 };
 
+const profile = async (_, args, { req }) => {
+  const currentUser = await authCheck(req);
+  return await User.findOne({ email: currentUser.email }).exec();
+};
+
 const userCreate = async (parent, args, { req }) => {
   const currentUser = await authCheck(req);
   const user = await User.findOne({ email: currentUser.email });
@@ -35,6 +40,7 @@ const userUpdate = async (parent, args, { req }) => {
 module.exports = {
   Query: {
     me,
+    profile,
   },
   Mutation: {
     userCreate,
