@@ -2,6 +2,9 @@ const { gql } = require("apollo-server-express");
 
 //types query/mutation/subscription
 module.exports = gql`
+  # scalar type
+  scalar DateTime
+
   type Query {
     me: String!
     profile: User!
@@ -30,8 +33,8 @@ module.exports = gql`
     email: String
     images: [Image]
     about: String
-    createdAt: String
-    updatedAt: String
+    createdAt: DateTime
+    updatedAt: DateTime
   }
 
   input UserUpdateInput {
@@ -39,10 +42,11 @@ module.exports = gql`
     name: String
     images: [ImageInput]
     about: String
+    email: String
   }
 
   type Mutation {
     userCreate: UserCreateResponse!
-    userUpdate(input: UserUpdateInput): User
+    userUpdate(input: UserUpdateInput!): User
   }
 `;

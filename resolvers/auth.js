@@ -3,6 +3,8 @@ const shortId = require("shortid");
 
 const User = require("../models/user");
 
+const { DateTimeResolver } = require("graphql-scalars");
+
 const me = async (_, args, { req, res }) => {
   await authCheck(req, res);
   return "UJJWOL";
