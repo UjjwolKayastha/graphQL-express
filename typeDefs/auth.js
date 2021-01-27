@@ -4,6 +4,7 @@ const { gql } = require("apollo-server-express");
 module.exports = gql`
   type Query {
     me: String!
+    profile: User!
   }
   type UserCreateResponse {
     username: String!
