@@ -17,7 +17,7 @@ module.exports = gql`
   # image input
   input ImageInput {
     url: String
-    public_id: String
+    public: String
   }
 
   type Image {
