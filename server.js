@@ -11,6 +11,7 @@ const path = require("path");
 const { makeExecutableSchema } = require("graphql-tools");
 const { mergeTypeDefs, mergeResolvers } = require("@graphql-tools/merge");
 const { loadFilesSync } = require("@graphql-tools/load-files");
+const cloudinary = require("cloudinary");
 
 //express server
 const app = express();
@@ -46,6 +47,13 @@ app.get("/rest", authCheck, function (req, res) {
   res.json({
     data: "API is working...",
   });
+});
+
+//cloudinary config
+cloudinary.config({
+  cloud_name: process.env.CLOUDINARY_CLOUD_NAME,
+  api_key: process.env.CLOUDINARY_API_KEY,
+  api_secret: process.env.CLOUDINARY_API_SECRET,
 });
 
 //upload image to cloudinary
