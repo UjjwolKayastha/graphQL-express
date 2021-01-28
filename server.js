@@ -12,12 +12,14 @@ const { makeExecutableSchema } = require("graphql-tools");
 const { mergeTypeDefs, mergeResolvers } = require("@graphql-tools/merge");
 const { loadFilesSync } = require("@graphql-tools/load-files");
 const cloudinary = require("cloudinary");
+const bodyParser = require("body-parser");
 
 //express server
 const app = express();
 
 db();
 app.use(cors());
+app.use(bodyParser.json({ limit: "5mb" }));
 
 //graphql server
 
@@ -61,6 +63,7 @@ app.post("/uploadimages", authCheckMiddleware, (req, res) => {
   cloudinary.uploader.upload(
     req.body.image,
     (result) => {
+      console.log("RESULT", result);
       res.send({
         url: result.url,
         public_id: result.public_id,

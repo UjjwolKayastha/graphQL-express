@@ -17,12 +17,12 @@ module.exports = gql`
   # image input
   input ImageInput {
     url: String
-    public: String
+    public_id: String
   }
 
   type Image {
     url: String
-    public: String
+    public_id: String
   }
 
   # returned user type
