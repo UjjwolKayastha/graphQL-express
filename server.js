@@ -4,7 +4,7 @@ const http = require("http");
 const express = require("express");
 require("dotenv").config();
 
-const { authCheck } = require("./helpers/auth");
+const { authCheck, authCheckMiddleware } = require("./helpers/auth");
 const cors = require("cors");
 const path = require("path");
 
@@ -45,6 +45,32 @@ apolloServer.installSubscriptionHandlers(httpServer);
 app.get("/rest", authCheck, function (req, res) {
   res.json({
     data: "API is working...",
+  });
+});
+
+//upload image to cloudinary
+app.post("/uploadimages", authCheckMiddleware, (req, res) => {
+  cloudinary.uploader.upload(
+    req.body.image,
+    (result) => {
+      res.send({
+        url: result.url,
+        public_id: result.public_id,
+      });
+    },
+    {
+      public_id: `${Date.now()}`, //public name
+      resource_type: "auto", //JPEG, PNG
+    }
+  );
+});
+
+//delete image
+app.post("/removeimage", authCheckMiddleware, (req, res) => {
+  let image_id = req.body.public_id;
+  cloudinary.uploader.destroy(image_id, (error, result) => {
+    if (error) return res.json({ success: false, error });
+    res.send("OK");
   });
 });
 
