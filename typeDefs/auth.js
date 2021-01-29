@@ -8,6 +8,8 @@ module.exports = gql`
   type Query {
     me: String!
     profile: User!
+    publicProfile(username: String!): User!
+    allUsers: [User!]
   }
   type UserCreateResponse {
     username: String!
